@@ -1,0 +1,37 @@
+
+#frequency-selector {
+    //background-color: blue;
+}
+
+#north-select {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#east-select {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+#south-select {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#west-select {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Repeat for other dropdowns with different colors */

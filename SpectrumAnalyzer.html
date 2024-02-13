@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spectrum Analyzer - Audio Player</title>
+    <link rel="stylesheet" href="__.css">
+</head>
+<body>
+    <div class="center-dropdown">
+        <div style="padding: 12px 0px 12px 20px;">Spectrum Analyzer</div>
+        <div style="padding: 0px 0px 12px 24px;">Frequency Band</div>
+        <select id="band_selector" class="center-dropdown corner-dropdown" style="padding-left: 8px;">
+        </select>
+    </div>
+    <div id="chart-container">
+        <canvas id="myChart" width="2160px;" height="660px;"></canvas>
+    </div>
+    <audio id="audioPlayer" controls>
+        <!--lossless--> <source id="audioPlayerCTL" src="AE.b_a_t_EN_accent_ad.wav" type="audio/wav">
+        <!--lossless--> <source src="AE.b_a_t_EN_accent_ad.flac" type="audio/flac">
+        <!--lossy-->    <source src="AE.b_a_t_EN_accent_ad.mp3" type="audio/mpeg">
+        <!--lossy-->    <source src="AE.b_a_t_EN_accent_ad.aac" type="audio/aac">
+        Your browser does not support the audio element.
+    </audio>
+    <div id="drop_zone">
+        <p id="original_text">Drop audio file here</p>
+        <p id="success_message">SUCCESS</p>
+    </div>
+
+    <div class="container">
+        <div class="flex-item">
+            <div id="file_url" class="file-url" readonly rows="1"></div>
+            <div id="info_window" class="info-window">
+                <div class="info-icon">i</div>
+                <div id="audio_attributes" class="audio-tooltip">
+                    <span class="tooltip">Playback Information<br>Duration: <span id="duration"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+    <footer>
+        <script src="chart.js/dist/chart.umd.js"></script>
+        <script src="__.js"></script>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Player - Spectrum Analyzer</title>
+    <link rel="stylesheet" href="__.css">
+</head>
+<body>
+    <div class="center-dropdown">
+        <div style="padding: 12px 0px 12px 20px;">Spectrum Analyzer</div>
+        <div style="padding: 0px 0px 12px 24px;">Frequency Band</div>
+        <select id="band_selector" class="center-dropdown corner-dropdown" style="padding-left: 8px;">
+            <option value="[4,640]"> 4 Hz to 652 Hz </option>
+            <option value="[652,1280]"> 652 Hz to 1280 Hz</option>
+            <option value="[1292,1920]"> 1292 Hz to 1920 Hz</option>
+            <option value="[1932,2560]"> 1932 Hz to 2560 Hz</option>
+            <option value="[2572,3200]"> 2572 Hz to 3200 Hz</option>
+            <option value="[3212,3840]"> 3212 Hz to 3840 Hz</option>
+            <option value="[3852,4480]"> 3852 Hz to 4480 Hz</option>
+            <option value="[4492,5120]"> 4492 Hz to 5120 Hz</option>
+            <option value="[5132,5760]"> 5132 Hz to 5760 Hz</option>
+            <option value="[5772,6400]"> 5772 Hz to 6400 Hz</option>
+            <option value="[6412,7040]"> 6412 Hz to 7040 Hz</option>
+            <option value="[7052,7680]"> 7052 Hz to 7680 Hz</option>
+            <option value="[7692,8320]"> 7692 Hz to 8320 Hz</option>
+            <option value="[8332,8960]"> 8332 Hz to 8960 Hz</option>
+            <option value="[8972,9600]"> 8972 Hz to 9600 Hz</option>
+            <option value="[9612,10240]"> 9612 Hz to 10240 Hz</option>
+            <option value="[10252,10880]"> 10252 Hz to 10880 Hz</option>
+            <option value="[10892,11520]"> 10892 Hz to 11520 Hz</option>
+            <option value="[11532,12160]"> 11532 Hz to 12160 Hz</option>
+            <option value="[12172,12800]"> 12172 Hz to 12800 Hz</option>
+            <option value="[12812,13440]"> 12812 Hz to 13440 Hz</option>
+            <option value="[13452,14080]"> 13452 Hz to 14080 Hz</option>
+            <option value="[14092,14720]"> 14092 Hz to 14720 Hz</option>
+            <option value="[14732,15360]"> 14732 Hz to 15360 Hz</option>
+            <option value="[15372,16000]"> 15372 Hz to 16000 Hz</option>
+            <option value="[16012,16640]"> 16012 Hz to 16640 Hz</option>
+            <option value="[16652,17280]"> 16652 Hz to 17280 Hz</option>
+            <option value="[17292,17920]"> 17292 Hz to 17920 Hz</option>
+            <option value="[17932,18560]"> 17932 Hz to 18560 Hz</option>
+            <option value="[18572,19200]"> 18572 Hz to 19200 Hz</option>
+            <option value="[19212,19840]"> 19212 Hz to 19840 Hz</option>
+            <option value="[19852,20480]"> 19852 Hz to 20480 Hz</option>
+        </select>
+    </div>
+    <div id="chart-container">
+        <canvas id="myChart" width="2160px;" height="660px;"></canvas>
+    </div>
+    <audio id="audioPlayer" controls>
+        <!--lossy-->    <source id="audioPlayerCTL" src="AE.b_a_t_EN_accent_ad.mp3" type="audio/mpeg">
+        <!--lossless--> <source src="AE.b_a_t_EN_accent_ad.wav" type="audio/wav">
+        <!--lossless--> <source src="AE.b_a_t_EN_accent_ad.flac" type="audio/flac">
+        <!--lossy-->    <source src="AE.b_a_t_EN_accent_ad.aac" type="audio/aac">
+        Your browser does not support the audio element.
+    </audio>
+    <div id="drop_zone">
+        <p id="original_text">Drop audio file here</p>
+        <p id="success_message">SUCCESS</p>
+    </div>
+    
+    </center><div id="file_url" readonly rows="1"></div></body>
+
+    <footer>
+        <script src="chart.js/dist/chart.umd.js"></script>
+        <script src="__.js"></script>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Audio Player</title>
+</head>
+<body>
+    <div id="audioPlayer">
+        <div> Now playing (Volume):</div>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1"><br>
+        <button id="playPauseBtn">Play</button>
+        <button id="muteBtn">Mute</button>
+        <div>Playback Timeline</div>
+        <input type="range" id="scrubber" min="0" max="100" value="0">
+    </div>
+
+    <!-- Include the JavaScript file -->
+    <script src="audioPlayer.js"></script>
+</body>
+</html>
