@@ -275,23 +275,23 @@ function showAudioAttributes(audioBuffer) {
     const numberOfChannels = audioBuffer.numberOfChannels;
 
     if (duration) {
-        audio_attributes.appendChild(document.createElement('span')).textContent = `Duration: ${duration} seconds`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `Duration: ${duration} seconds`;
     }
 
     if (numberOfChannels) {
-        audio_attributes.appendChild(document.createElement('span')).textContent = `Audio Channels: ${numberOfChannels}`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `Audio Channels: ${numberOfChannels}`;
     }
 
     if (bitDepth) {
-        audio_attributes.appendChild(document.createElement('span')).textContent = `PCM Resolution: ${bitDepth}-Bit`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `PCM Resolution: ${bitDepth}-Bit`;
     }
 
     if (sampleRate) {
-        audio_attributes.appendChild(document.createElement('span')).textContent = `PCM Sample Rate: ${sampleRate} Hz`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `PCM Sample Rate: ${sampleRate} Hz`;
     }
 
     if (lengthInBytes) {
-        audio_attributes.appendChild(document.createElement('span')).textContent = `Length: ${lengthInBytes} bytes`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `Length: ${lengthInBytes} bytes`;
     }
     info_window.style.display = 'inline';
 }
