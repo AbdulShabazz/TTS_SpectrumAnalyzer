@@ -29,7 +29,7 @@ g_globalFrequencyBand = [];
 
 function buildOptionsElement() {
     // Define the start value and the number of steps
-    let startValue = 4;
+    let startValue = 0;
     for (let value = startValue; value <= totalValues; value += valuesPerOption * step) {
         // Calculate end value for the current range
         let endValue = value + valuesPerOption * step - step;
@@ -156,12 +156,11 @@ function updateSpectrum() {
 
     // Calculate initial fftSize to achieve the desired bandwidth
     // Define minimum and maximum fftSize constraints
-    // Note: FrequencyBinCount = fftSize / 2
     const minFFT_CutOff = 32; // Minimum fftSize
     const maxFFT_CutOff = 32768; // Maximum fftSize 
 
-    // Now, analyzer.fftSize is set to a value that provides a 4Hz bandwidth per each frequency bin,
-    // while also being a power of 2 and within the specified constraints.
+    // Note: valuesPerOption(20480)/valuesPerOption(160) == (ie. FrequencyBinCount(8192)) = fftSize / 2
+    //sampleRate * valuesPerOption / totalValues;//totalValues / valuesPerOption * 2; // valuesPerOption(160) // desiredBandwidthPerBin(4)
     let fftSize = sampleRate / desiredBandwidthPerBin;
 
     // Find the nearest power of 2 greater than or equal to calculated fftSize
@@ -170,9 +169,11 @@ function updateSpectrum() {
     fftSize = 1 << mantissa;
 
     // Ensure fftSize is within constraints
-    fftSize = Math.max(minFFT_CutOff, Math.min(fftSize, maxFFT_CutOff));
+    fftSize = Math.max(minFFT_CutOff, Math.min(fftSize, maxFFT_CutOff)); // 1 << 9; // 1 << 10; // 1 << 13;
 
     // Set the fftSize for the analyzer
+    // Now, analyzer.fftSize is set to a value that provides a 4Hz bandwidth per each frequency bin,
+    // while also being a power of 2 and within the specified constraints.
     LChannelAnalyzer.fftSize = fftSize;
     RChannelAnalyzer.fftSize = fftSize;
 
@@ -185,11 +186,10 @@ function updateSpectrum() {
     // Extract the value from the option element's index
     const selectedIndex = band_selector.selectedIndex;
 
-    const start = g_globalFrequencyBand[selectedIndex].start;
-    const tmpEnd = g_globalFrequencyBand[selectedIndex].end;
+    const { start, end } = g_globalFrequencyBand[selectedIndex];
 
     if (outOfBandFrequencyPairing(start, currentFrequencyBand.LChannel[0].frequency_hz)) {
-        swapOutFrequencyBands(start, tmpEnd);
+        swapOutFrequencyBands(start, end);
     }
 
     // Update the peak amplitudes and current frequency bands for LHS channel
@@ -546,7 +546,7 @@ myChart = new Chart(ctx, {
                 borderWidth: 1,
                 yAxisID: 'y-axis-amplitude-duo',
                 xAxisID: 'x-axis-frequency',
-                hidden: true // Avoid mixing Left-/Right-Channel data
+                //hidden: true // Avoid mixing Left-/ Right-Channel data
             }]
     },
     options: {
