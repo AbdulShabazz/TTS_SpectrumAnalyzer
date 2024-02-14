@@ -517,7 +517,7 @@ function populateFrequencyBands() {
 
     const BAND = selectedOption.end;
 
-    for (let band = selectedOption.start; band < BAND; band += step) {
+    for (let band = selectedOption.start; band <= BAND; band += step) {
         tmpFrequncyBands.push(new SpectrumSample({ amplitude_rdBFS : soundFloor, frequency_hz : band }));
         tmpPeakAmplitudes.push(new SpectrumSample({ amplitude_rdBFS : soundFloor, frequency_hz : band }));
     }
