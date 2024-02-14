@@ -278,7 +278,7 @@ function showAudioAttributes(audioBuffer) {
     }
 
     if (lengthInBytes) {
-        audio_attributes.appendChild(document.createElement('div')).textContent = `Length: ${lengthInBytes} bytes`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `Length: ${lengthInBytes} Frames per Channel`;
     }
     info_window.style.display = 'inline';
 }
