@@ -52,6 +52,7 @@ function buildOptionsElement() {
     }
 }
 
+
 buildOptionsElement();
 
 audioPlayer.addEventListener('onclick', function() {
@@ -184,18 +185,12 @@ function updateSpectrum() {
     // Extract the value from the option element's index
     const selectedIndex = band_selector.selectedIndex;
 
-    //const start = selectedIndex * valuesPerOption;
-    //const tmpEnd = selectedIndex * valuesPerOption + valuesPerOption;
-
     const start = g_globalFrequencyBand[selectedIndex].start;
     const tmpEnd = g_globalFrequencyBand[selectedIndex].end;
 
     if (outOfBandFrequencyPairing(start, currentFrequencyBand.LChannel[0].frequency_hz)) {
         swapOutFrequencyBands(start, tmpEnd);
     }
-
-    const LBANDS = start + Math.min(LChannelDataArray.length, tmpEnd-start);
-    const RBANDS = start + Math.min(RChannelDataArray.length, tmpEnd-start);
 
     // Update the peak amplitudes and current frequency bands for LHS channel
     if (numberOfChannels > 0) {
@@ -204,16 +199,11 @@ function updateSpectrum() {
         let currentBand = start;
         let updatedFrequencyBands = [];
         for (let band of currentFrequencyBand.LChannel) {
-
-            if(currentBand > LBANDS) {
-                break;
-            }
-
             const value = LChannelDataArray[currentBand];
             const clampedValue = clamp(value, negativeDynamicThreshold, 0); // dBFS
             const currentAmplitude = normalizeAmplitude(Math.abs(clampedValue), Math.abs(negativeDynamicThreshold));// adjusted range from 0.0 to 1.0 
 
-            // Update the amplitude a the current band
+            // Update the amplitude at the current band
             band.amplitude_rdBFS = currentAmplitude;
 
             // Update peakAmplitudes and or apply decay
@@ -238,16 +228,11 @@ function updateSpectrum() {
         let currentBand = start;
         let updatedFrequencyBands = [];
         for (let band of currentFrequencyBand.RChannel) {
-
-            if(currentBand > RBANDS) {
-                break;
-            }
-
             const value = RChannelDataArray[currentBand];
             const clampedValue = clamp(value, negativeDynamicThreshold, 0); // dBFS
             const currentAmplitude = normalizeAmplitude(Math.abs(clampedValue), Math.abs(negativeDynamicThreshold));// adjusted range from 0.0 to 1.0 
 
-            // Update the amplitude a the current band
+            // Update the amplitude at the current band
             band.amplitude_rdBFS = currentAmplitude;
 
             // Update peakAmplitudes and or apply decay
@@ -273,6 +258,8 @@ function showAudioAttributes(audioBuffer) {
     const lengthInBytes = audioBuffer.length;
     const sampleRate = audioBuffer.sampleRate;
     const numberOfChannels = audioBuffer.numberOfChannels;
+
+    audio_attributes.innerHTML = '';
 
     if (duration) {
         audio_attributes.appendChild(document.createElement('div')).textContent = `Duration: ${duration} seconds`;
@@ -339,7 +326,6 @@ writeString(flacHeader, 0, 'fLaC', platformEndianness); // 0x664C6143 {"664C6143
 @brief: The audioPlayer object is a reference to the audio element that is currently playing.
 @details: REM:: The AudioContext object is a builtin object. Its functionality can only be invoked fom within an HTML audio control element.*/
 audioPlayer.addEventListener('play', function() {
-    let instanceofFloat32Array_ = false;
     audioPlayer.paused = false;
     
     fetch(audioPlayer.src)
@@ -509,15 +495,18 @@ class SpectrumSample extends Object {
 }
 
 function populateFrequencyBands() {
+    // Initialize the array to hold the value-pairs
+    let valuePairs = [];
     let tmpFrequncyBands = [];
     let tmpPeakAmplitudes = [];
-    const defaultSelectedIndex = 0;
+    const selectedIndex = band_selector.selectedIndex;
 
-    const selectedOption = g_globalFrequencyBand[defaultSelectedIndex];
+    const selectedOption = g_globalFrequencyBand[selectedIndex];
 
     const BAND = selectedOption.end;
 
     for (let band = selectedOption.start; band <= BAND; band += step) {
+        valuePairs.push({ x: band, y: soundFloor });
         tmpFrequncyBands.push(new SpectrumSample({ amplitude_rdBFS : soundFloor, frequency_hz : band }));
         tmpPeakAmplitudes.push(new SpectrumSample({ amplitude_rdBFS : soundFloor, frequency_hz : band }));
     }
@@ -526,6 +515,8 @@ function populateFrequencyBands() {
     peakAmplitudes.RChannel = [...tmpPeakAmplitudes]; // Right Channel
     currentFrequencyBand.LChannel = [...tmpFrequncyBands]; // Left Channel
     currentFrequencyBand.RChannel = [...tmpFrequncyBands]; // Right Channel
+
+    return valuePairs;
 }
 
 populateFrequencyBands();
@@ -687,33 +678,8 @@ myChart = new Chart(ctx, {
     }
 });
 
-// Function to extract range and generate value-pairs
-function generateValuePairs() {
-    // Extract the value from the option element
-    const selectedIndex = band_selector.selectedIndex;
-
-    // Extract the range from the option value
-    let tmpFrequncyBands = [];
-    const { start, end } = g_globalFrequencyBand[selectedIndex];
-
-    // Initialize the array to hold the value-pairs
-    const valuePairs = [];
-
-    // Loop from start to end in steps of 4
-    for (let x = start; x <= end; x += 4) {
-        // Push the value-pair object to the array
-        valuePairs.push({ x: x, y: soundFloor });
-        tmpFrequncyBands.push(new SpectrumSample({ amplitude_rdBFS : soundFloor, frequency_hz : x }));
-    }
-
-    currentFrequencyBand.LChannel = [...tmpFrequncyBands]; // Left Channel
-    currentFrequencyBand.RChannel = [...tmpFrequncyBands]; // Right Channel
-
-    return valuePairs;
-}
-
 band_selector.addEventListener('change', function(e) {
-    const valuePairs = generateValuePairs();
+    const valuePairs = populateFrequencyBands();
     myChart.data.datasets[0].data = valuePairs;
     myChart.data.datasets[1].data = valuePairs;
     myChart.update();
