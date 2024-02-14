@@ -15,11 +15,11 @@ peakAmplitudes = {};
 currentFrequencyBand = {};
 
 // DOM elements
-const step = 4;
+const step = 12;
 const soundFloor = 0.01; // Minimum amplitude to be considered as sound
 const totalValues = 20480; // Or any other end value you need
 const valuesPerOption = 160; // Number of values in each range
-const negativeDynamicThreshold = -150; // dBFS
+const negativeDynamicThreshold = -100; // dBFS
 
 // Clear existing options
 band_selector.innerHTML = '';
@@ -278,7 +278,7 @@ function showAudioAttributes(audioBuffer) {
     }
 
     if (lengthInBytes) {
-        audio_attributes.appendChild(document.createElement('div')).textContent = `Length: ${lengthInBytes} Frames per Channel`;
+        audio_attributes.appendChild(document.createElement('div')).textContent = `Channel Length: ${lengthInBytes} frames`;
     }
     info_window.style.display = 'inline';
 }
