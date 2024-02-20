@@ -250,6 +250,10 @@ function updateSpectrum() {
     } // end for (channel of RChannelAudio)
 
     myChart.update();
+
+    /*if (audioPlayer.state !== 'closed') {
+        setTimeout(updateSpectrum, 1);
+    }*/
 }
 
 function showAudioAttributes(audioBuffer) {
